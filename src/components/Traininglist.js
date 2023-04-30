@@ -101,7 +101,7 @@ function TrainingList() {
     console.log('API_URL:', API_URL); // Log the API_URL
     console.log('Full URL:', API_URL + '/trainings'); // Log the full API request URL
     try {
-      const response = await fetch('https://traineeapp.azurewebsites.net/api/trainings');
+      const response = await fetch(API_URL + '/trainings');
       if (!response.ok) {
         throw new Error("Error occurred in fetching trainings data");
       }
