@@ -98,6 +98,8 @@ function TrainingList() {
   };
 
   const getTrainings = async () => {
+    console.log('API_URL:', API_URL); // Log the API_URL
+    console.log('Full URL:', API_URL + '/trainings'); // Log the full API request URL
     try {
       const response = await fetch(API_URL + "/trainings");
       if (!response.ok) {
