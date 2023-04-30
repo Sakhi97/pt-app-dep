@@ -116,6 +116,8 @@ function CustomerList() {
   };
 
   const getCustomers = () => {
+    console.log('API_URL:', API_URL); // Log the API_URL
+    console.log('Full URL:', API_URL + '/customers'); // Log the full API request URL
     fetch(API_URL+'/customers')
       .then((response) => {
         if (response.ok) return response.json();
@@ -128,8 +130,6 @@ function CustomerList() {
 
 
   const addCustomer = (customer) => {
-    console.log('API_URL:', API_URL); // Log the API_URL
-    console.log('Full URL:', API_URL + '/customers'); // Log the full API request URL
     fetch(API_URL + '/customers', {
       method: 'POST',
       headers: {'Content-type': 'application/json'},
