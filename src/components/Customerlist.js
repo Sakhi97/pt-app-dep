@@ -203,7 +203,7 @@ function CustomToolbar() {
 
   useEffect(() => {
     getCustomers();
-  }, []);
+  }, [getCustomers]);
 
   return (
     <>

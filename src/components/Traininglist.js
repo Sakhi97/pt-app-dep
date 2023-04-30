@@ -143,7 +143,7 @@ function TrainingList() {
 
   useEffect(() => {
     getTrainings();
-  }, []);
+  }, [getTrainings]);
 
   return (
     <>

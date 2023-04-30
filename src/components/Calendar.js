@@ -14,9 +14,7 @@ function Calendar() {
   const [trainings, setTrainings] = useState([]);
   const [selectedTraining, setSelectedTraining] = useState(null);
 
-  useEffect(() => {
-    fetchTrainings();
-  }, []);
+  
 
   const fetchTrainings = async () => {
     try {
@@ -57,6 +55,10 @@ function Calendar() {
   const handleClose = () => {
     setSelectedTraining(null);
   };
+
+  useEffect(() => {
+    fetchTrainings();
+  }, [fetchTrainings]);
 
   return (
     <div className="calendar">
