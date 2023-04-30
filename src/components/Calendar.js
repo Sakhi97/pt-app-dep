@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
 function Calendar() {
-  const GET_ALL_URL = process.env.REACT_APP_GET_TRAININGS;
+  const GET_ALL_URL = 'https://traineeapp.azurewebsites.net/gettrainings';
   const [trainings, setTrainings] = useState([]);
   const [selectedTraining, setSelectedTraining] = useState(null);
 

@@ -15,7 +15,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function TrainingList() {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = 'https://traineeapp.azurewebsites.net/api';
   const [trainings, setTrainings] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");

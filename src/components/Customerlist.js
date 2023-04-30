@@ -28,7 +28,7 @@ function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState();
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = 'https://traineeapp.azurewebsites.net/api';
  
 
   const [columnDefs] = useState([
