@@ -93,7 +93,7 @@ function MainContent() {
 function App() {
   return (
     <div className="App">
-      <HashRouter>
+      <HashRouter basename="/">
         <MainContent />
       </HashRouter>
     </div>
