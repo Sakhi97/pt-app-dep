@@ -96,85 +96,84 @@ function TrainingList() {
     }
   };
 
+  const httpsUrl = (url) => {
+    if (url.startsWith("http://")) {
+      return "https://" + url.slice(7);
+    }
+    return url;
+  };
+
+  const fetchCustomer = async (training) => {
+    const customerUrl = training.links.find(
+      (link) => link.rel === "customer"
+    )?.href;
+    const customerResponse = await fetch(httpsUrl(customerUrl));
+    if (!customerResponse.ok) {
+      throw new Error("Could not fetch customer data for training");
+    }
+    return await customerResponse.json();
+  };
+
   useEffect(() => {
     const getTrainings = async () => {
       try {
         const response = await fetch('https://traineeapp.azurewebsites.net/api/trainings');
         if (!response.ok) {
           throw new Error("Error occurred in fetching trainings data");
-        }
-        const { content: data } = await response.json();
-  
-        const fetchCustomer = async (training) => {
-          const customerUrl = training.links.find(
-            (link) => link.rel === "customer"
-          )?.href;
-          const customerResponse = await fetch(customerUrl);
-          if (!customerResponse.ok) {
-            throw new Error("Could not fetch customer data for training");
-          }
-          return await customerResponse.json();
-        };
-  
-        const trainingsWithCustomer = await Promise.all(
-          data.map(async (training) => {
-            const customerData = await fetchCustomer(training);
-            const customer = `${customerData.firstname} ${customerData.lastname}`;
-            return { ...training, customer };
-          })
-        );
-  
-        setTrainings(trainingsWithCustomer);
-      } catch (error) {
-        console.error("Error fetching trainings:", error);
-      }
-    };
+}
+      const { content: data } = await response.json();
+      const trainingsWithCustomer = await Promise.all(
+      data.map(async (training) => {
+        const customerData = await fetchCustomer(training);
+        const customer = `${customerData.firstname} ${customerData.lastname}`;
+        return { ...training, customer };
+      })
+    );
 
-    getTrainings();
+    setTrainings(trainingsWithCustomer);
+  } catch (error) {
+    console.error("Error fetching trainings:", error);
+  }
+};
+
+getTrainings();
 }, []);
 
-  function CustomToolbar() {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-        <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
-        <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
-      </GridToolbarContainer>
-    );
-  }
+function CustomToolbar() {
+return (
+<GridToolbarContainer>
+<GridToolbarColumnsButton />
+<GridToolbarFilterButton />
+<GridToolbarDensitySelector />
+<GridToolbarExport printOptions={{ disableToolbarButton: true }} />
+</GridToolbarContainer>
+);
+}
 
-  
-
-  
-
-  return (
-    <>
-      <div style={{ height: 600, width: "65%", margin: "auto"      }}>
-        <DataGrid
-          components={{ Toolbar: CustomToolbar }}
-          rows={trainings}
-          columns={columnDefs}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 10 } },
-          }}
-          pagination
-          pageSize={10}
-          pageSizeOptions={[5, 10, 15]}
-          getRowId={(row) => row.links.find((link) => link.rel === "self").href}
-        />
-      </div>
-      <Snackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-      />
-    </>
-  );
+return (
+<>
+<div style={{ height: 600, width: "65%", margin: "auto" }}>
+<DataGrid
+components={{ Toolbar: CustomToolbar }}
+rows={trainings}
+columns={columnDefs}
+initialState={{
+pagination: { paginationModel: { pageSize: 10 } },
+}}
+pagination
+pageSize={10}
+pageSizeOptions={[5, 10, 15]}
+getRowId={(row) => row.links.find((link) => link.rel === "self").href}
+/>
+</div>
+<Snackbar
+     open={snackbarOpen}
+     message={snackbarMessage}
+     autoHideDuration={3000}
+     onClose={handleSnackbarClose}
+   />
+</>
+);
 }
 
 export default TrainingList;
-
-
-
