@@ -15,7 +15,6 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function TrainingList() {
-  const API_URL = 'https://traineeapp.azurewebsites.net/api';
   const [trainings, setTrainings] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -100,7 +99,7 @@ function TrainingList() {
   useEffect(() => {
     const getTrainings = async () => {
       try {
-        const response = await fetch(API_URL + "/trainings");
+        const response = await fetch('https://traineeapp.azurewebsites.net/api/trainings');
         if (!response.ok) {
           throw new Error("Error occurred in fetching trainings data");
         }
