@@ -124,7 +124,7 @@ function CustomerList() {
             };
             
             const addCustomer = (customer) => {
-            fetch(API_URL + '/customers', {
+            fetch('https://traineeapp.azurewebsites.net/api/customers' {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify(customer)
