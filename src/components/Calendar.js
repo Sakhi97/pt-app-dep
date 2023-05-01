@@ -14,35 +14,37 @@ function Calendar() {
   const [trainings, setTrainings] = useState([]);
   const [selectedTraining, setSelectedTraining] = useState(null);
 
-  
+  useEffect(() => {
+    const fetchTrainings = async () => {
+      try {
+        const trainingsResponse = await fetch(GET_ALL_URL);
+        const trainingsData = await trainingsResponse.json();
 
-  const fetchTrainings = async () => {
-    try {
-      const trainingsResponse = await fetch(GET_ALL_URL);
-      const trainingsData = await trainingsResponse.json();
+        const formattedTrainings = trainingsData.map((training) => {
+          const customer = training.customer;
+          const title = customer
+            ? `${training.activity} / ${customer.firstname} ${customer.lastname}`
+            : `${training.activity} / Unknown Customer`;
 
-      const formattedTrainings = trainingsData.map((training) => {
-        const customer = training.customer;
-        const title = customer
-          ? `${training.activity} / ${customer.firstname} ${customer.lastname}`
-          : `${training.activity} / Unknown Customer`;
+          const startTime = new Date(training.date);
+          const endTime = new Date(startTime.getTime() + training.duration * 60000);
 
-        const startTime = new Date(training.date);
-        const endTime = new Date(startTime.getTime() + training.duration * 60000);
+          return {
+            title,
+            start: startTime,
+            end: endTime,
+            ...training, // Add all training data to the event object
+          };
+        });
 
-        return {
-          title,
-          start: startTime,
-          end: endTime,
-          ...training, // Add all training data to the event object
-        };
-      });
+        setTrainings(formattedTrainings);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-      setTrainings(formattedTrainings);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    fetchTrainings();
+  }, []);
 
   const handleDateClick = (info) => {
     console.log('Clicked on date:', info.dateStr);
@@ -55,10 +57,6 @@ function Calendar() {
   const handleClose = () => {
     setSelectedTraining(null);
   };
-
-  useEffect(() => {
-    fetchTrainings();
-  }, [fetchTrainings]);
 
   return (
     <div className="calendar">
@@ -80,18 +78,17 @@ function Calendar() {
         <DialogTitle>{selectedTraining?.title}</DialogTitle>
         <DialogTitle>{selectedTraining?.extendedProps.title}</DialogTitle>
         <DialogContent>
-  <p>Date: {selectedTraining ? selectedTraining.start.toLocaleDateString() : ''}</p>
-  <p>Duration: {selectedTraining ? ((selectedTraining.end - selectedTraining.start) / 60000).toFixed() : ''} minutes</p>
-  <p>Activity: {selectedTraining?.extendedProps.activity}</p>
-  {selectedTraining?.extendedProps.customer && (
-    <>
-      <p>Customer: {selectedTraining.extendedProps.customer.firstname} {selectedTraining.extendedProps.customer.lastname}</p>
-      <p>Email: {selectedTraining.extendedProps.customer.email}</p>
-      <p>Phone: {selectedTraining.extendedProps.customer.phone}</p>
-    </>
-  )}
-</DialogContent>
-
+          <p>Date: {selectedTraining ? selectedTraining.start.toLocaleDateString() : ''}</p>
+          <p>Duration: {selectedTraining ? ((selectedTraining.end - selectedTraining.start) / 60000).toFixed() : ''} minutes</p>
+          <p>Activity: {selectedTraining?.extendedProps.activity}</p>
+          {selectedTraining?.extendedProps.customer && (
+            <>
+              <p>Customer: {selectedTraining.extendedProps.customer.firstname} {selectedTraining.extendedProps.customer.lastname}</p>
+              <p>Email: {selectedTraining.extendedProps.customer.email}</p>
+              <p>Phone: {selectedTraining.extendedProps.customer.phone}</p>
+            </>
+          )}
+        </DialogContent>
 
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
