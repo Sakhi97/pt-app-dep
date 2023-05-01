@@ -14,7 +14,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useState, useEffect } from 'react';
-import { Link, Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 
 function MainContent() {
   const [value, setValue] = useState('/');
@@ -70,7 +70,6 @@ function MainContent() {
             <ListItem button component={Link} to="/calendar">
               <ListItemText primary="Calendar" />
             </ListItem>
-            
           </List>
         </div>
       </Drawer>
@@ -98,7 +97,6 @@ function App() {
         <MainContent />
       </BrowserRouter>
     </div>
-    
   );
 }
 
