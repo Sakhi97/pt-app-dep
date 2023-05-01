@@ -78,23 +78,24 @@ function TrainingList() {
   };
 
   const deleteTraining = (row) => {
-    if (window.confirm("Are you sure?")) {
-      const url = row.links.find((link) => link.rel === "self").href;
-      fetch(url, { method: "DELETE" })
-        .then((response) => {
-          if (response.ok) {
-            setTrainings((prevTrainings) =>
-              prevTrainings.filter((t) => t.links[0].href !== url)
-            );
-            setSnackbarMessage("Training deleted successfully");
-            setSnackbarOpen(true);
-          } else {
-            alert("Something went wrong in deletion");
-          }
-        })
-        .catch((err) => console.error(err));
-    }
-  };
+  if (window.confirm("Are you sure?")) {
+    const url = row.links.find((link) => link.rel === "self").href;
+    fetch(url.replace("http://", "https://"), { method: "DELETE" }) // Replace 'http://' with 'https://'
+      .then((response) => {
+        if (response.ok) {
+          setTrainings((prevTrainings) =>
+            prevTrainings.filter((t) => t.links[0].href !== url)
+          );
+          setSnackbarMessage("Training deleted successfully");
+          setSnackbarOpen(true);
+        } else {
+          alert("Something went wrong in deletion");
+        }
+      })
+      .catch((err) => console.error(err));
+  }
+};
+
 
   const httpsUrl = (url) => {
     if (url.startsWith("http://")) {
