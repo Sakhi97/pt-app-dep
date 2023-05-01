@@ -10,14 +10,13 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
 function Calendar() {
-  const GET_ALL_URL = 'https://traineeapp.azurewebsites.net/gettrainings';
   const [trainings, setTrainings] = useState([]);
   const [selectedTraining, setSelectedTraining] = useState(null);
 
   useEffect(() => {
     const fetchTrainings = async () => {
       try {
-        const trainingsResponse = await fetch(GET_ALL_URL);
+        const trainingsResponse = await fetch('https://traineeapp.azurewebsites.net/gettrainings');
         const trainingsData = await trainingsResponse.json();
 
         const formattedTrainings = trainingsData.map((training) => {
