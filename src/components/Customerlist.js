@@ -26,7 +26,6 @@ function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState();
-  const API_URL = 'https://traineeapp.azurewebsites.net/api';
 
   const [columnDefs] = useState([
     { headerName: "First Name", field: "firstname", sortable: true, filter: true, width: 140 },
@@ -115,7 +114,7 @@ function CustomerList() {
             }, []);
             
             const getCustomers = () => {
-            fetch(API_URL + '/customers')
+            fetch('https://traineeapp.azurewebsites.net/api/customers')
             .then((response) => {
             if (response.ok) return response.json();
             else alert("Something went wrong in GET request");
@@ -141,7 +140,7 @@ function CustomerList() {
             }
             
             const addTraining = async (training) => {
-            const response = await fetch(API_URL+'/trainings', {
+            const response = await fetch('https://traineeapp.azurewebsites.net/api/trainings', {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(training),
