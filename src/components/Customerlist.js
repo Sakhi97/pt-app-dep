@@ -95,7 +95,7 @@ function CustomerList() {
 
   const deleteCustomer = (row) => {
     if (window.confirm("Are you sure?")) {
-      fetch(row.links[0].href, { method: "DELETE" })
+      fetch(row.links[0].href.replace("http://", "https://"), { method: "DELETE" }) // Replace 'http://' with 'https://'
         .then((response) => {
           if (response.ok) {
             setMsg("Customer has been deleted successfully");
@@ -114,7 +114,7 @@ function CustomerList() {
             }, []);
             
             const getCustomers = () => {
-            fetch('https://traineeapp.azurewebsites.net/api/customers')
+            fetch("https://traineeapp.azurewebsites.net/api/customers")
             .then((response) => {
             if (response.ok) return response.json();
             else alert("Something went wrong in GET request");
@@ -124,7 +124,7 @@ function CustomerList() {
             };
             
             const addCustomer = (customer) => {
-            fetch('https://traineeapp.azurewebsites.net/api/customers', {
+            fetch("https://traineeapp.azurewebsites.net/api/customers", {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify(customer)
@@ -162,7 +162,7 @@ function CustomerList() {
             }
             
             const updateCustomer = (updatedCustomer, url) => {
-            fetch(url, {
+            fetch(url.replace("http://", "https://"), { // Replace 'http://' with 'https://'
             method: 'PUT',
             headers: {'Content-type':'application/json'},
             body: JSON.stringify(updatedCustomer)
